@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block title %}
+  Market Page
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+
+		<br/>
+		<div style='text-align: center;'>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+					{% for category, message in messages %}
+						<div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+							{{ message }}
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+            </div>
+		<br/>
+		<h1 style='text-align: center;'>Hello in our market</h1>
+		<br/>
+		<br/>
+			<div class="row" style="margin-top:20px; margin-left:20px">
+   				<div style="width:80% text-align: center">
+					<h2>Available items on the Market</h2>
+                      <p style="font-weight: normal">--Click on one of the items to start buying--</p>
+					<b/>
+					<table class="table table-hover table-dark">
+			<thead>
+			<tr>
+				<th scope="col">ID</th>
+				<th scope="col">Name</th>
+				<th scope="col">Barcode</th>
+				<th scope="col">Price</th>
+				<th scope="col">option</th>
+			</tr>
+			</thead>
+			<tbody>
+				{% for item in items %}
+				{% include 'includes/items_modals.html' %}
+				<tr>
+					<td>{{ item.id }}</td>
+					<td>{{ item.name }}</td>
+					<td>{{ item.barcode }}</td>
+					<td>{{ item.price }}$</td>
+					<td>
+						<button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#Modal-MorInfo-{{ item.id }}">More.Info</button>
+						<button class="btn btn-outline-light"data-bs-toggle="modal" data-bs-target="#Modal-PurchaseConfirm-{{ item.id }}">Purchase.This.Item</button>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	    </div>
+				<br/>
+		<br/>
+        <div class="col-10">
+   		     <h2>Owned Items</h2>
+			{% if current_user.item %}
+			<p style="font-weight: normal">--Click on sell item to put an item back on the Market--</p>
+			{% else %}
+			<p style="font-weight: normal">--You don't have any item --</p>
+			{% endif %}
+			<br>
+			<div class="row">
+				{% for owned_item in owned_items %}
+				{% include 'includes/owned_items_modals.html' %}
+				<div class="col-md-6">
+					<div style="margin-bottom: 5px" class="card text-center bg-dark">
+                      <div class="card-body">
+                          <h5 class="card-title">{{ owned_item.name }}</h5>
+                          <button type="button" class="btn btn-outline-danger" style="margin-bottom: 5px"
+                                  data-bs-toggle="modal" data-bs-target="#Modal-SellingConfirm-{{ owned_item.id }}">
+                              Sell this Item
+                          </button>
+                          <p class="card-text" style="font-weight: normal">
+                              This item costs {{ owned_item.price }}$
+                         </p>
+                      </div>
+                  </div>
+				</div>
+				{% endfor %}
+			</div>
+  		 </div>
+    </div>
+	</div>
+{% endblock %}
+

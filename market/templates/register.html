@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}
+    Register Page
+{% endblock %}
+
+{% block body %}
+    <div class="container" style="width:50%">
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+            <div style='text-align: center;'>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+					{% for category, message in messages %}
+						<div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+							{{ message }}
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+            </div>
+            <h1 class="text-center">
+                Please Create Your Account !
+            </h1>
+          <br/>
+          <br/>
+          <br/>
+        <form method="POST" class="form-register" style="color:white">
+            {{ form.hidden_tag() }}
+
+            {{ form.username.label() }}
+            <br/>
+            {{ form.username(class="form-control", placeholder="user name...") }}
+            <br/>
+
+            {{ form.email_address.label() }}
+            <br/>
+            {{ form.email_address(class="form-control", placeholder="email address...") }}
+            <br/>
+            {{ form.password1.label() }}
+            <br/>
+            {{ form.password1(class="form-control", placeholder="password...") }}
+
+            <br/>
+            {{ form.password2.label() }}
+            <br/>
+            {{ form.password2(class="form-control", placeholder="confirm password...") }}
+            <br/>
+            <br/>
+            <div style='text-align: center'>
+            {{ form.submit(class="btn btn-primary btn-lg")}}
+            </div>
+             <br/>
+             <br/>
+            <div class="checkbox mb-3", style='text-align: center'>
+                <h6>Do you have an account? &nbsp;&nbsp;
+                    <a class="btn btn-outline-primary btn-sm"
+                       href="{{ url_for('login_page') }}">Sign in</a></h6>
+
+            </div>
+
+        </form>
+    </div>
+{% endblock %}
